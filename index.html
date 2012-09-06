@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Share on ADN</title>
+
+        <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/default.css">
+    </head>
+    <body>
+        <div class='container'></div>
+        <!-- templates -->
+        <script type='javascript/template' data-name='index'>
+            <div class='full-container'>
+                <div class='hero-unit'>
+                    <h1>Share links on App.net</h1>
+                    <br>
+                    <p>Drag this bookmarklet <a class='btn btn-primary' href='javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://del05f65do1od.cloudfront.net/share-on-adn/assets/js/bookmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());'>Share on ADN</a> to your bookmarklet bar.</p>
+                    <p><small>The first time you use the bookmarklet you will need to authenticate this app.</small></p>
+                </div>
+            </div>
+        </script>
+        <script type='javascript/template' data-name='auth'>
+            <div class='bookmarklet-container'>
+                <h1>Before you share that link</h1>
+                <p>Please authorize this app. It will send you right back here and the sharing process will begin.</p>
+                <% if (error) { %>
+                    <div class="alert">
+                        <p><strong>Ooops!</strong> There was an error durring authorization: <%= error_description %><br>
+                        Let <a href='http://alpha.app.net/voidfiles'>@voidfiles</a> know about it</p>
+                    </div>
+                <% } %>
+                <p><a class='btn btn-success' href='<%= oauth_authorize_url %>'>Authorize</a></p>
+            </div>
+        </script>
+        <script type='javascript/template' data-name='post'>
+            <div class='bookmarklet-container'>
+                <form>
+                    <legend>Post this link to App.net</legend>
+                    <label>Post Text (<span class='js-char-count'>250</span>)</label>
+                    <textarea class='js-post-text post-text' name='post_text'></textarea>
+                    <span class="help-block">The rest of the form will be saved as an annotation.</span>
+                    <label>Snippet</label>
+                    <textarea class='js-snippet snippet' name='snippet'></textarea>
+                    <label>Link</label>
+                    <input class='js-link' name='link'>
+                    <label>Title</label>
+                    <input class='js-title' name='title'>
+                    <div class="form-actions">
+                        <a href='#' class="btn btn-primary js-post-to-adn">Post</a>
+                        <a href='#' class="btn btn-link js-cancel-post pull-right">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </script>
+
+        <!-- scripts -->
+        <script type="text/javascript">
+            var OPTIONS = {
+                client_id: 'YuEDAB8MrwcrJbP3yxc8nDqdMwZNdR6M',
+                callback_uri: "http://localhost:8000/share-on-adn/index.html?view=post"
+            };
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="./assets/js/json2.js"></script>
+        <script src="./assets/js/sanatize.js"></script>
+        <script src="./assets/js/jquery.cookie.js"></script>
+        <script src="./assets/js/underscore-min.js"></script>
+        <script src="./assets/js/backbone-min.js"></script>
+        <script src="./assets/js/app.js"></script>
+    </body>
+</html>

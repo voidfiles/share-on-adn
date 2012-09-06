@@ -1,0 +1,39 @@
+.container {
+    width: 100%;
+}
+
+.full-container {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.bookmarklet-container {
+    width: 500px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+.bookmarklet-container textarea,
+.bookmarklet-container input {
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.bookmarklet-container .snippet {
+    height: 75px;
+}
+
+.bookmarklet-container .post-text {
+    height: 90px;
+}
+
+.bookmarklet-container form,
+.bookmarklet-container form .form-actions{
+    margin-bottom: 0;
+}
+
+.bookmarklet-container form .form-actions {
+    padding: 9px 10px 10px;
+}
