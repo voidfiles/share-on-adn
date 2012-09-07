@@ -7,6 +7,7 @@ def build_site():
     environ['FLASK_CONF'] = './conf/prod.cfg'
     local('rm -fR static/gen/*')
     local('python freeze.py')
+    local('rm -fR static/gen/*')
 
 
 def deploy():
