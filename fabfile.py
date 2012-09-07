@@ -8,6 +8,9 @@ def deploy():
     local('python freeze.py')
     local(("s3cmd put --exclude '*.webassets-cache*' --exclude '*static/css*' "
            "--exclude '*static/js*' --acl-public --guess-mime-type -r build/ s3://share-on-adn"))
+
+
+def deploy_pages():
     local('cp -fR build /tmp/_store_them_files')
     local('git checkout gh-pages')
     local('cp -fR /tmp/_store_them_files/* ./')
