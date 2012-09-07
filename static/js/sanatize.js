@@ -94,4 +94,4 @@ $.sanitize = function (html, settings) {
   }
 
   return sanitized;
-}
+};
