@@ -48,7 +48,7 @@
 
     };
 
-    agrb.prototype.grLink = (window.SADN_PATH || "https://del05f65do1od.cloudfront.net") + "/share-on-adn/index.html?view=post";
+    agrb.prototype.grLink = (window.SADN_ROOT || "https://del05f65do1od.cloudfront.net") + "/index.html?view=post";
     agrb.prototype.grIFrame = "GR________link_bookmarklet_frame";
     agrb.prototype.getHtml = function(){
         if (document.selection && document.selection.createRange) {
