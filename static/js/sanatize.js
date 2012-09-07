@@ -45,7 +45,6 @@ $.sanitize = function (html, settings) {
           if (!key) break;
           key = key[0];
           attrs = attrs.slice(key.length);
-
           if (attrs[0] === '=') {
             attrs = attrs.slice(1);
             if (/['"]/.exec(attrs[0])) {
@@ -63,7 +62,7 @@ $.sanitize = function (html, settings) {
             } else {
               break;
             }
-          } else if (attrs[0].exec(/\s/)) {
+          } else if (attrs[0] !== ':' && attrs[0].exec(/\s/)) {
             attributes[key] = key;
           } else {
             break;
