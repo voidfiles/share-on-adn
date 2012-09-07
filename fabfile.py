@@ -5,10 +5,12 @@ from fabric.api import local,  settings
 
 def build_site():
     environ['FLASK_CONF'] = './conf/prod.cfg'
+    local('rm -fR static/gen/*')
     local('python freeze.py')
 
 
 def deploy():
+    build_site()
     local(("s3cmd put --exclude '*.webassets-cache*' --exclude '*static/css*' "
            "--exclude '*static/js*' --acl-public --guess-mime-type -r build/ s3://share-on-adn"))
 
