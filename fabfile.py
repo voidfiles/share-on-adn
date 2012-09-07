@@ -1,6 +1,6 @@
 from os import environ
 
-from fabric.api import local
+from fabric.api import local,  settings
 
 
 def deploy():
@@ -11,9 +11,10 @@ def deploy():
 
 
 def deploy_pages():
-    local('cp -fR build /tmp/_store_them_files')
-    local('git checkout gh-pages')
-    local('cp -fR /tmp/_store_them_files/* ./')
-    local('git commit -a -m "page bump"')
-    local('git push origin gh-pages')
-    local('git checkout origin master')
+    with settings(warn_only=True):
+        local('cp -fR build /tmp/_store_them_files')
+        local('git checkout gh-pages')
+        local('cp -fR /tmp/_store_them_files/* ./')
+        local('git commit -a -m "page bump"')
+        local('git push -f origin gh-pages')
+    local('git checkout master')
