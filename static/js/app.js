@@ -45,19 +45,6 @@ var IndexView = PageView.extend({
     template_name: "index",
 
     initialize: function () {
-        if (!ACCESS_TOKEN) {
-            var params = $.param({
-                client_id: OPTIONS.client_id,
-                callback_uri: OPTIONS.callback_uri,
-                scope: 'stream,write_post',
-                response_type: 'token'
-            });
-            template_context.oauth_authorize_url = 'http://alpha.app.net/oauth/authorize?' + params;
-            template_context.authorized = false;
-        } else {
-            template_context.authorized = true;
-        }
-
         this.render(template_context);
     }
 });
@@ -73,7 +60,7 @@ var AuthView = PageView.extend({
         if (!ACCESS_TOKEN) {
             var params = $.param({
                 client_id: OPTIONS.client_id,
-                callback_uri: OPTIONS.callback_uri,
+                redirect_uri: OPTIONS.callback_uri,
                 scope: 'stream,write_post',
                 response_type: 'token'
             });
