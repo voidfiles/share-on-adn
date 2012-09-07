@@ -1,6 +1,0 @@
-*.DS_Store
-*.env
-*static/.webassets-cache
-*static/gen
-*.pyc
-build/
