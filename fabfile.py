@@ -16,3 +16,4 @@ def deploy_pages():
     local('cp -fR /tmp/_store_them_files/* ./')
     local('git commit -a -m "page bump"')
     local('git push origin gh-pages')
+    local('git checkout origin master')
