@@ -38,7 +38,8 @@
         this.formdata.title    = document.title;
         this.formdata.url      = window.location.href;
         this.formdata.srcTitle = window.location.host;
-
+        this.iframe_ready = false;
+        this.embed_sent = false;
         // Get snippet
         this.getHtml();
         if (this.formdata.snippet === "") {
@@ -163,7 +164,17 @@
     };
 
     agrb.prototype.on_iframe_ready = function () {
+        this.iframe_ready = true;
         this.__iframe.contentWindow.postMessage(this.formdata, this.grLink);
+        this.send_embed();
+    };
+
+    agrb.prototype.send_embed = function () {
+        if(!this.sent_embed && this.embed && this.iframe_ready) {
+            this.sent_embed = true;
+            this.embed['oembed'] = 1;
+            this.__iframe.contentWindow.postMessage(this.embed, this.grLink);
+        }
     };
 
     agrb.prototype.submit = function(){
@@ -172,7 +183,6 @@
     };
 
     agrb.prototype.handle_message = function (event) {
-        console.log('got a message');
         var method = event.data.method;
         if (method === 'iframe_ready') {
             this.on_iframe_ready();
@@ -181,11 +191,53 @@
         }
     };
 
+    agrb.prototype.handle_embedly = function (embed) {
+        this.embed = embed;
+        this.send_embed();
+    };
+
+    agrb.prototype.fetch_oembed = function (){
+        var base_url = 'http://api.embed.ly/1/oembed';
+        var params = {
+            url: ('' + window.location),
+            maxwidth: 500,
+            callback: 'in_action_callback'
+        };
+
+        var encoded_params = [];
+
+        for (var param in params) {
+            encoded_params.push(param + '=' + encodeURI(params[param]));
+        }
+        encoded_params = encoded_params.join('&');
+
+        var url = base_url + '?' + encoded_params;
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', url);
+        console.log(url);
+        document.body.appendChild(script);
+    };
+
+    var proxy = function (fn, context) {
+        // Simulated bind
+        args = Array.prototype.slice.call( arguments, 2 );
+        proxy = function() {
+            return fn.apply( context, args.concat( Array.prototype.slice.call( arguments ) ) );
+        };
+
+        return proxy;
+    };
+
     var in_action = new agrb();
     window.in_action = in_action;
-    window.addEventListener("message", $.proxy(in_action.handle_message, in_action), false);
-    in_action.submit();
+    window.in_action_callback = function (embed) {
+        in_action.handle_embedly(embed);
+    };
 
+    window.addEventListener("message", proxy(in_action.handle_message, in_action), false);
+    in_action.submit();
+    in_action.fetch_oembed();
     window.removeLinkFrame = function(){
         var b = document.getElementById("GR________link_bookmarklet_node");
         b.innerHTML = "";

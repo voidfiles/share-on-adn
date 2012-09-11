@@ -39,13 +39,26 @@
                     <legend>Post this link to App.net</legend>
                     <label>Post Text (<span class='js-char-count'>250</span>)</label>
                     <textarea class='js-post-text post-text' name='post_text'></textarea>
-                    <span class="help-block">The rest of the form will be saved as an annotation.</span>
-                    <label>Snippet</label>
-                    <textarea class='js-snippet snippet' name='snippet'></textarea>
-                    <label>Link</label>
-                    <input class='js-link' name='link'>
-                    <label>Title</label>
-                    <input class='js-title' name='title'>
+                    <div class='js-embed-carousel embed-carousel'>
+                        <span class="help-block">
+                            <span><strong>Clip to be stored on the post</strong></span>
+                            <span class='help-block pull-right hide js-embed-carousel-nav'>
+                                <a href='#prev' title='Previous Embed' class='js-embed-carousel-left'><i class='icon-arrow-left'></i></a>
+                                &nbsp;
+                                <a href='#next' title='Next Embed' class='js-embed-carousel-right'><i class='icon-arrow-right'></i></a>
+                            </span>
+                        </span>
+                        <div class='embed-carousel js-embed-carousel-item-container'>
+                            <div class='embed-carousel-item js-embed-carousel-item' data-source='form'>
+                                <label>User Selected Snippet</label>
+                                <textarea class='js-snippet snippet' name='snippet'></textarea>
+                                <label>Link</label>
+                                <input class='js-link' name='link'>
+                                <label>Title</label>
+                                <input class='js-title' name='title'>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <a href='#' class="btn btn-primary js-post-to-adn">Post</a>
                         <a href='#' class="btn btn-link js-cancel-post pull-right">Cancel</a>
@@ -53,7 +66,20 @@
                 </form>
             </div>
         </script>
-
+        <script type='javascript/template' data-name='embed-carousel-item'>
+            <div class='embed-carousel-item hide js-embed-carousel-item' data-source='embed'>
+                <label>Embed</label>
+                <div class='yui3-g'>
+                    <div class='yui3-u-3-4'>
+                        <h3 class='no-top-space'><%= embed.title %></h3>
+                        <p><%= embed.description %></p>
+                    </div>
+                    <div class='yui3-u-1-4'>
+                        <img src='<%= embed.thumbnail_url %>'>
+                    </div>
+                <div>
+            </div>
+        </script>
         <!-- scripts -->
         <script type="text/javascript">
             var OPTIONS = {

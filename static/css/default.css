@@ -37,3 +37,15 @@
 .bookmarklet-container form .form-actions {
     padding: 9px 10px 10px;
 }
+
+.image-respond img {
+    max-width: 90%;
+}
+
+h3.no-top-space {
+    margin-top: 0;
+}
+
+.embed-carousel {
+    height: 241px;
+}

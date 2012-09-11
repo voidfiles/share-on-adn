@@ -76,6 +76,28 @@ var AuthView = PageView.extend({
 });
 
 
+var CarouselView = Backbone.View.extend({
+    tagName: "div",
+
+    className: "container",
+
+    initialize: function () {
+        this.$el.find('.js-embed-carousel-nav').removeClass('hide');
+    },
+    events: {
+        'click .js-embed-carousel-left': 'next',
+        'click .js-embed-carousel-right': 'prev'
+    },
+    next: function () {
+        var current_item = this.$el.find('.embed-carousel-item:not(.hide)');
+        current_item.addClass('hide').siblings(':first').removeClass('hide');
+    },
+    prev: function () {
+        var current_item = this.$el.find('.embed-carousel-item:not(.hide)');
+        current_item.addClass('hide').siblings(':last').removeClass('hide');
+    }
+
+});
 
 var PostView = PageView.extend({
     template_name: 'post',
@@ -89,8 +111,15 @@ var PostView = PageView.extend({
         this.$el.find('.js-char-count').text(char_count);
     },
     post_to_adn: function () {
-        post = this.serialize_form();
+        var carousel = this.$el.find('.js-embed-carousel');
+        var embed = carousel.find('.js-embed-carousel-item:not(.hide)');
+        var post = this.serialize_form();
+        if (embed.data('source') === 'embed') {
+            post.annotations[0].value = this.embed;
+        }
+
         var _this = this;
+
         $.ajax({
             url: "https://alpha-api.app.net/stream/0/posts?include_annotations=1",
             type: "POST",
@@ -115,13 +144,16 @@ var PostView = PageView.extend({
     serialize_form: function () {
 
         return {
-            'text': this.$el.find('.js-post-text').val(),
-            "annotations": [{
-                "type": "com.github.voidfiles.share-on-adn",
-                "value": {
-                    'snippet': this.$el.find('.js-snippet').val(),
-                    'title': this.$el.find('.js-title').val(),
-                    'link': this.$el.find('.js-link').val()
+            text: this.$el.find('.js-post-text').val(),
+            annotations: [{
+                type: "com.github.voidfiles.share-on-adn",
+                value: {
+                    type: 'rich',
+                    html: this.$el.find('.js-snippet').val(),
+                    title: this.$el.find('.js-title').val(),
+                    link: this.$el.find('.js-link').val(),
+                    width: 500,
+                    height: 250
                 }
             }]
         };
@@ -148,6 +180,16 @@ var PostView = PageView.extend({
         this.$el.find('.js-title').val(data.title);
         this.$el.find('.js-link').val(data.url);
     },
+    recieve_oembed: function (embed) {
+        this.embed = embed;
+        var carousel = this.$el.find('.js-embed-carousel');
+        var carousel_item_container = carousel.find('.js-embed-carousel-item-container');
+
+        var carousel_item = this.render_to_html('embed-carousel-item', {embed: embed});
+        carousel_item_container.append(carousel_item);
+
+        carousel_view = new CarouselView({el: carousel});
+    },
     initialize: function () {
         var _this = this;
         this.render();
@@ -155,8 +197,12 @@ var PostView = PageView.extend({
         this.host_url = getQueryVariable('host_url');
 
         window.addEventListener("message", function (event) {
-            _this.render_to_form(event.data);
-            _this.update_char_count();
+            if(!event.data.oembed) {
+                _this.render_to_form(event.data);
+                _this.update_char_count();
+            } else {
+                _this.recieve_oembed(event.data);
+            }
         }, false);
 
         window.top.postMessage({'method': 'iframe_ready'}, this.host_url);

@@ -30,6 +30,7 @@ assets.register('bookmarklet', bookmarklet)
 
 js = Bundle(
     './css/bootstrap.css',
+    './css/grids-min.css',
     './css/default.css',
     filters='cssmin',
     output='./gen/%(version)s_packed.css')
