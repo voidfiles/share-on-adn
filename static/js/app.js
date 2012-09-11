@@ -99,6 +99,31 @@ var CarouselView = Backbone.View.extend({
 
 });
 
+var MySanitizer = new Sanitize({
+  elements: [
+    'a', 'b', 'blockquote', 'br', 'caption', 'cite', 'code', 'dd', 'dl',
+    'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'i', 'img', 'li', 'ol', 'p', 'pre', 'q', 'small', 'strike', 'strong',
+    'sub', 'sup','u', 'ul'],
+
+  attributes: {
+    'a'         : ['href', 'title'],
+    'blockquote': ['cite'],
+    'img'       : ['align', 'alt', 'height', 'src', 'title', 'width'],
+    'ol'        : ['start', 'type'],
+    'q'         : ['cite'],
+    'ul'        : ['type']
+  },
+
+  protocols: {
+    'a'         : {'href': ['ftp', 'http', 'https', 'mailto',
+                                Sanitize.RELATIVE]},
+    'blockquote': {'cite': ['http', 'https', Sanitize.RELATIVE]},
+    'img'       : {'src' : ['http', 'https', Sanitize.RELATIVE]},
+    'q'         : {'cite': ['http', 'https', Sanitize.RELATIVE]}
+  }
+});
+
 var PostView = PageView.extend({
     template_name: 'post',
     events: {
@@ -160,21 +185,11 @@ var PostView = PageView.extend({
     },
     render_to_form: function (data) {
         var post_text = data.title + ' ' + data.url;
-        var snippet = $.sanitize(data.snippet, {
-            a: {
-                href: true,
-                title: true
-            },
-            img: {
-                src: true
-            },
-            span: {},
-            p: {},
-            ul: {},
-            ol: {},
-            li: {},
-            div: {}
-        });
+        var snippet = $('<div/>').html(data.snippet).get(0);
+        snippet = MySanitizer.clean_node(snippet);
+        snippet = $('<div/>').append(snippet.childNodes).get(0).innerHTML;
+
+
         this.$el.find('.js-post-text').val(post_text);
         this.$el.find('.js-snippet').val(snippet);
         this.$el.find('.js-title').val(data.title);
