@@ -49,7 +49,7 @@
 
     };
 
-    agrb.prototype.grLink = (window.SADN_ROOT || "https://del05f65do1od.cloudfront.net") + "/index.html?view=post";
+    agrb.prototype.grLink = (window.SADN_ROOT || "https://del05f65do1od.cloudfront.net") + "/index.html?view=post&date=" + (+new Date());
     agrb.prototype.grIFrame = "GR________link_bookmarklet_frame";
     agrb.prototype.getHtml = function(){
         if (document.selection && document.selection.createRange) {
