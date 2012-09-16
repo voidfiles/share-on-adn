@@ -19,18 +19,21 @@
                     <p><small>The first time you use the bookmarklet you will need to authenticate this app.</small></p>
                 </div>
             </div>
+            <div class='page-container'>
+                <iframe src='{{ROOT_URL}}/index.html?view=grid' class='iframe'></iframe>
+            </div>
         </script>
         <script type='javascript/template' data-name='auth'>
             <div class='bookmarklet-container'>
                 <h1>Before you share that link</h1>
                 <p>Please authorize this app. It will send you right back here and the sharing process will begin.</p>
-                <% if (error) { %>
+                <% if (ctx.error) { %>
                     <div class="alert">
-                        <p><strong>Ooops!</strong> There was an error durring authorization: <%= error_description %><br>
+                        <p><strong>Ooops!</strong> There was an error durring authorization: <%= ctx.error_description %><br>
                         Let <a href='http://alpha.app.net/voidfiles'>@voidfiles</a> know about it</p>
                     </div>
                 <% } %>
-                <p><a class='btn btn-success' href='<%= oauth_authorize_url %>'>Authorize</a></p>
+                <p><a class='btn btn-success' href='<%= ctx.oauth_authorize_url %>'>Authorize</a></p>
             </div>
         </script>
         <script type='javascript/template' data-name='post'>
@@ -71,13 +74,59 @@
                 <label>Embed</label>
                 <div class='yui3-g'>
                     <div class='yui3-u-3-4'>
-                        <h3 class='no-top-space'><%= embed.title %></h3>
-                        <p><%= embed.description %></p>
+                        <h3 class='no-top-space'><%= ctx.embed.title %></h3>
+                        <p><%= ctx.embed.description %></p>
                     </div>
                     <div class='yui3-u-1-4'>
-                        <img src='<%= embed.thumbnail_url %>'>
+                        <img src='<%= ctx.embed.thumbnail_url %>'>
                     </div>
                 <div>
+            </div>
+        </script>
+        <!--
+            <div class='img-container'>
+                <% _.each(post.annotations, function (annotation) { %>
+                    <% if (annotation.value.type == 'photo') { %>
+                    <img src='<%= annotation.value.url %>' width='<%= annotation.value.width %>' height='<%= annotation.value.height %>'>
+                    <% } else { %>
+                    <img src='<%= annotation.value.thumbnail_url %>' width='<%= annotation.value.thumbnail_width %>' height='<%= annotation.value.thumbnail_height %>'>
+                    <% } %>
+                <% }) %>
+            </div>
+        -->
+        <script type='javascript/template' data-name='grid'>
+            <div class='full-container'>
+                <div class=''>
+                    <div class='yui3-g'>
+                        <div class='yui3-u-1-2'>
+                            <h2>Your Recently Saved Links</h2>
+                            <ul class='unstyled post-display yui3-u-11-12' data-post-display>
+                                <% _.each(ctx.posts, function(post) {  console.log(post)%>
+                                    <li class='yui3-u-1'>
+                                        <div class='inside'>
+                                            <blockquote class='yui3-u-11-12'>
+                                                <p><%= post.html %></p>
+                                                <div class='yui3-g'>
+                                                    <div class='yui3-u-1-12'>
+                                                        <a href='http://alpha.app.net/<%= post.user.username %>'>
+                                                            <img src='<%= post.user.avatar_image.url %>?width=60&height=60' width='30px' height='30px'>
+                                                        </a>
+                                                    </div>
+                                                    <div class='yui3-u-11-12'>
+                                                        <p><a href='http://alpha.app.net/<%= post.user.username %>'>@<%= post.user.username %></a></p>
+                                                    </div>
+                                                </div>
+                                            </blockquote>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                        <div class='yui3-u-1-2'>
+                            <h2>Everyones Recently Saved Links</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </script>
         <!-- scripts -->

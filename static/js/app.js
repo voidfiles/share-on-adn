@@ -11,6 +11,7 @@ var get_template = function (name) {
     }
 
     var template_text = $("[data-name=" + name +"]").get(0).innerHTML;
+
     TEMPLATE_CACHE[name] = _.template(template_text);
 
     return TEMPLATE_CACHE[name];
@@ -32,10 +33,11 @@ var PageView = Backbone.View.extend({
 
        var template = get_template(template_name);
 
-       return template(ctx);
+       return template({ctx: ctx});
     },
 
     render: function (extra_context) {
+
         this.$el.html(this.render_to_html(this.template_name, extra_context));
     }
 
@@ -124,6 +126,15 @@ var MySanitizer = new Sanitize({
   }
 });
 
+var API = function (conf) {
+    conf.url = 'https://alpha-api.app.net/stream/0' + conf.url;
+    conf.headers = {
+        'Authorization': 'Bearer ' + localStorage.access_token
+    };
+
+    return $.ajax(conf);
+};
+
 var PostView = PageView.extend({
     template_name: 'post',
     events: {
@@ -145,15 +156,12 @@ var PostView = PageView.extend({
 
         var _this = this;
 
-        $.ajax({
-            url: "https://alpha-api.app.net/stream/0/posts?include_annotations=1",
+        API({
+            url: "/posts?include_annotations=1",
             type: "POST",
             data: JSON.stringify(post),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.access_token
-            }
+            dataType: "json"
         }).done(function () {
             window.top.postMessage({'method': 'done_posting'}, _this.host_url);
         }).fail(function () {
@@ -224,6 +232,52 @@ var PostView = PageView.extend({
     }
 });
 
+var GridView = PageView.extend({
+    template_name: "grid",
+
+    fit: function () {
+        this.$el.find('.post-display').isotope({
+            layoutMode: 'fitColumns',
+            fitColumns: {
+                columnWidth: 200
+            }
+        });
+    },
+    initialize: function () {
+        if (ACCESS_TOKEN) {
+            this.render(template_context);
+            var _this = this;
+            API({
+                url: "/users/me/posts",
+                type: "GET",
+                data: {
+                    include_annotations: 1,
+                    count: 200
+                }
+            }).done(function (data) {
+                var posts = _.filter(data.data, function (post) {
+                    var has_thumbnail;
+
+                    post.annotations = _.filter(post.annotations, function (annotation) {
+                        if (annotation.value.thumbnail_url) {
+                            return annotation;
+                        }
+                        return false;
+                    });
+
+                    return post.annotations.length;
+                });
+
+                var ctx = $.extend({}, template_context, {
+                    'posts': posts
+                });
+
+               _this.render(ctx);
+            });
+        }
+    }
+});
+
 function getQueryVariable(variable, query) {
     query = query || window.location.search.substring(1);
     var vars = query.split("&");
@@ -259,7 +313,8 @@ if (fragment !== '') {
 var VIEW_ROUTES = {
     'index': IndexView,
     'auth': AuthView,
-    'post': PostView
+    'post': PostView,
+    'grid': GridView
 };
 
 var view;

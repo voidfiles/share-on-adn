@@ -11,6 +11,7 @@ assets = Environment(app)
 
 js = Bundle(
     './js/json2.js',
+    './js/jquery.isotope.min.js',
     './js/sanatize.js',
     './js/jquery.cookie.js',
     './js/underscore-min.js',
