@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Share on ADN proxy</title>
+    </head>
+    <body>
+        <!-- scripts -->
+        <script type="text/javascript">
+            var OPTIONS = {
+                client_id: 'YuEDAB8MrwcrJbP3yxc8nDqdMwZNdR6M',
+                callback_uri: "{{ ROOT_URL }}/index.html?view=post"
+            };
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        {% assets "js_proxy" %}
+            <script type="text/javascript" src=".{{ ASSET_URL }}"></script>
+        {% endassets %}
+    </body>
+</html>
