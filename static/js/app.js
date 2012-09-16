@@ -319,9 +319,12 @@ var VIEW_ROUTES = {
 
 var view;
 var selected_view = getQueryVariable('view');
-
+var unauth_stall = getQueryVariable('unauth_stall') || false;
 
 if (!ACCESS_TOKEN && selected_view) {
+    if (unauth_stall) {
+        return;
+    }
     view = VIEW_ROUTES['auth'];
 } else if(selected_view) {
     view = VIEW_ROUTES[selected_view] || IndexView;

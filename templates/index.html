@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class='page-container'>
-                <iframe src='{{ROOT_URL}}/index.html?view=grid' class='iframe'></iframe>
+                <iframe src='{{ROOT_URL}}/index.html?view=grid&unauth_stall=1' class='iframe'></iframe>
             </div>
         </script>
         <script type='javascript/template' data-name='auth'>
@@ -101,7 +101,7 @@
                         <div class='yui3-u-1-2'>
                             <h2>Your Recently Saved Links</h2>
                             <ul class='unstyled post-display yui3-u-11-12' data-post-display>
-                                <% _.each(ctx.posts, function(post) {  console.log(post)%>
+                                <% _.each(ctx.posts, function(post) { %>
                                     <li class='yui3-u-1'>
                                         <div class='inside'>
                                             <blockquote class='yui3-u-11-12'>
@@ -121,9 +121,6 @@
                                     </li>
                                 <% }); %>
                             </ul>
-                        </div>
-                        <div class='yui3-u-1-2'>
-                            <h2>Everyones Recently Saved Links</h3>
                         </div>
                     </div>
                 </div>
