@@ -197,7 +197,7 @@
     };
 
     agrb.prototype.fetch_oembed = function (){
-        var base_url = 'http://api.embed.ly/1/oembed';
+        var base_url = 'https://api.embed.ly/1/oembed';
         var params = {
             url: ('' + window.location),
             maxwidth: 500,
