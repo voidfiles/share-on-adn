@@ -153,6 +153,13 @@ var PostView = PageView.extend({
         if (embed.data('source') === 'embed') {
             post.annotations[0].value = this.embed;
         }
+        var canonical_url = post.annotations[0].value.link || post.annotations[0].value.url;
+        post.annotations.push({
+            type: "net.app.core.crosspost",
+            value: {
+                canonical_url: canonical_url
+            }
+        });
 
         var _this = this;
 
