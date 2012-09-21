@@ -157,6 +157,7 @@ var PostView = PageView.extend({
                 this.embed.type = 'rich';
                 this.embed.width = 500;
                 this.embed.height = 250;
+                this.embed.html = post.html;
 
             }
             this.embed.url = canonical_url;
