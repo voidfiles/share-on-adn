@@ -153,17 +153,11 @@ var PostView = PageView.extend({
         var canonical_url = post.annotations[0].value.url || post.annotations[0].value.link;
 
         if (embed.data('source') === 'embed') {
-            if (this.embed.type == 'link') {
-                this.embed.type = 'rich';
-                this.embed.width = 500;
-                this.embed.height = 250;
-                this.embed.html = post.html;
-
-            }
             this.embed.url = canonical_url;
             post.annotations[0].value = this.embed;
         }
 
+        post.annotations[0].value.html = post.annotations[0].value.html || "<a href='" + canonical_url + "'>" + canonical_url + "</a>";
         post.annotations.push({
             type: "net.app.core.crosspost",
             value: {
@@ -223,6 +217,9 @@ var PostView = PageView.extend({
     },
     recieve_oembed: function (embed) {
         this.embed = embed;
+        if (this.embed.type == 'link') {
+            return;
+        }
         var carousel = this.$el.find('.js-embed-carousel');
         var carousel_item_container = carousel.find('.js-embed-carousel-item-container');
 
