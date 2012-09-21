@@ -155,6 +155,8 @@ var PostView = PageView.extend({
         if (embed.data('source') === 'embed') {
             if (this.embed.type == 'link') {
                 this.embed.type = 'rich';
+                this.embed.width = 500;
+                this.embed.height = 250;
 
             }
             this.embed.url = canonical_url;
