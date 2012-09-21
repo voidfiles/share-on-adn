@@ -150,10 +150,17 @@ var PostView = PageView.extend({
         var carousel = this.$el.find('.js-embed-carousel');
         var embed = carousel.find('.js-embed-carousel-item:not(.hide)');
         var post = this.serialize_form();
+        var canonical_url = post.annotations[0].value.url || post.annotations[0].value.link;
+
         if (embed.data('source') === 'embed') {
+            if (this.embed.type == 'link') {
+                this.embed.type = 'rich';
+
+            }
+            this.embed.url = canonical_url;
             post.annotations[0].value = this.embed;
         }
-        var canonical_url = post.annotations[0].value.link || post.annotations[0].value.url;
+
         post.annotations.push({
             type: "net.app.core.crosspost",
             value: {
@@ -186,12 +193,13 @@ var PostView = PageView.extend({
         return {
             text: this.$el.find('.js-post-text').val(),
             annotations: [{
-                type: "com.github.voidfiles.share-on-adn",
+                type: "net.app.core.oembed",
                 value: {
                     type: 'rich',
+                    version: '1.0',
                     html: this.$el.find('.js-snippet').val(),
                     title: this.$el.find('.js-title').val(),
-                    link: this.$el.find('.js-link').val(),
+                    url: this.$el.find('.js-link').val(),
                     width: 500,
                     height: 250
                 }
