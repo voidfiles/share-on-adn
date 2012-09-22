@@ -84,6 +84,11 @@
     max-height: 100%;
 }
 
+.embed-carousel-item {
+    height: 220px;
+    overflow: scroll;
+}
+
 iframe {
     width: 100%;
     height: 100%;

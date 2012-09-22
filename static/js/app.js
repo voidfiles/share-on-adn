@@ -150,18 +150,18 @@ var PostView = PageView.extend({
         var carousel = this.$el.find('.js-embed-carousel');
         var embed = carousel.find('.js-embed-carousel-item:not(.hide)');
         var post = this.serialize_form();
-        var canonical_url = post.annotations[0].value.url || post.annotations[0].value.link;
+        var embeddable_url = post.annotations[0].value.url || post.annotations[0].value.link;
 
         if (embed.data('source') === 'embed') {
-            this.embed.url = canonical_url;
+            this.embed.embeddable_url = embeddable_url;
             post.annotations[0].value = this.embed;
         }
 
-        post.annotations[0].value.html = post.annotations[0].value.html || "<a href='" + canonical_url + "'>" + canonical_url + "</a>";
+        post.annotations[0].value.html = post.annotations[0].value.html || "<a href='" + embeddable_url + "'>" + embeddable_url + "</a>";
         post.annotations.push({
             type: "net.app.core.crosspost",
             value: {
-                canonical_url: canonical_url
+                canonical_url: embeddable_url
             }
         });
 
@@ -176,7 +176,7 @@ var PostView = PageView.extend({
         }).done(function () {
             window.top.postMessage({'method': 'done_posting'}, _this.host_url);
         }).fail(function () {
-            alert('Your snippet is to big to fit in an annotation. Make it smaller and try again.');
+            alert('Something went wrong. Talk to @voidfiles on app.net.');
         });
 
         return false;
@@ -218,7 +218,12 @@ var PostView = PageView.extend({
     recieve_oembed: function (embed) {
         this.embed = embed;
         if (this.embed.type == 'link') {
-            return;
+            var rich_template = get_template('rich-embed');
+            var html = rich_template({ctx: {embed: embed}});
+            this.embed.type = 'rich';
+            this.embed.html = html;
+            this.embed.width = 500;
+            this.embed.height = 250;
         }
         var carousel = this.$el.find('.js-embed-carousel');
         var carousel_item_container = carousel.find('.js-embed-carousel-item-container');
