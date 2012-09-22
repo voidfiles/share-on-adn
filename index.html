@@ -2,7 +2,7 @@
     <head>
         <title>Share on ADN</title>
         
-            <link rel="stylesheet" type="text/css" href="./static/gen/1b44c7c4_packed.css">
+            <link rel="stylesheet" type="text/css" href="./static/gen/7b83329f_packed.css">
         
     </head>
     <body>
@@ -69,17 +69,40 @@
                 </form>
             </div>
         </script>
+        <script type='javascript/template' data-name="rich-embed">
+            <div class='oembed-rich'>
+                <p>
+                    <a href='<%= ctx.embed.embeddable_url %>'><%= ctx.embed.title %></a>
+                </p>
+                <p><%= ctx.embed.description %></p>
+                <p>
+                    <img src='<%= ctx.embed.thumbnail_url %>'
+                         width='<%= ctx.embed.thumbnail_width %>px'
+                         height='<%= ctx.embed.thumbnail_height %>px'>
+                </p>
+                <p>via <a href='<%= ctx.embed.provider_url %>'><%= ctx.embed.provider_name %></a></p>
+            </div>
+        </script>
         <script type='javascript/template' data-name='embed-carousel-item'>
             <div class='embed-carousel-item hide js-embed-carousel-item' data-source='embed'>
                 <label>Embed</label>
                 <div class='yui3-g'>
+                    <% if (ctx.embed.type != 'photo') { %>
+                    <div class='yui3-u-1'>
+                        <h4 class='no-top-space'><%= ctx.embed.title %></h4>
+                    </div>
                     <div class='yui3-u-3-4'>
-                        <h3 class='no-top-space'><%= ctx.embed.title %></h3>
                         <p><%= ctx.embed.description %></p>
                     </div>
                     <div class='yui3-u-1-4'>
                         <img src='<%= ctx.embed.thumbnail_url %>'>
                     </div>
+                    <% } else { %>
+                        <div class='yui3-u-1'>
+                            <h3 class='no-top-space'><%= ctx.embed.title %></h3>
+                            <p><img src='<%= ctx.embed.thumbnail_url %>' style='max-height: 140px;'></p>
+                        </div>
+                    <% } %>
                 <div>
             </div>
         </script>
@@ -135,7 +158,7 @@
         </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         
-            <script type="text/javascript" src="./static/gen/45b017ef_packed.js"></script>
+            <script type="text/javascript" src="./static/gen/ef400612_packed.js"></script>
         
     </body>
 </html>
