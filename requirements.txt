@@ -13,3 +13,4 @@ ssh==1.7.14
 webassets==0.7
 wsgiref==0.1.2
 yuicompressor==2.4.7
+-e git://github.com/jpadilla/postmark-inbound-python.git@b37680054c0a7e90cf17243693855b28aba91dbc#egg=python_postmark_inbound-dev
