@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import json
 
 from flask import Flask, render_template
 from flask import request
@@ -64,7 +65,8 @@ def hello():
 
 @app.route("/inbound/email")
 def inbound_email():
-    inbound = PostmarkInbound(json=request.data)
+    json_data = json.dumps(request.json)
+    inbound = PostmarkInbound(json=json_data)
     logger.INFO(inbound.json)
     return 'ok'
 
