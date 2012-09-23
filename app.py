@@ -3,6 +3,7 @@ import sys
 import logging
 
 from flask import Flask, render_template
+from flask import request
 from flask.ext.assets import Environment, Bundle
 from postmark.inbound import PostmarkInbound
 
@@ -62,7 +63,7 @@ def hello():
 
 
 @app.route("/inbound/email")
-def inbound_email(request):
+def inbound_email():
     inbound = PostmarkInbound(json=request.data)
     logger.INFO(inbound.json)
     return 'ok'
