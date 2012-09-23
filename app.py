@@ -63,8 +63,11 @@ def hello():
     return render_template('index.html', ROOT_URL=app.config.get('ROOT_URL'))
 
 
-@app.route("/inbound/email", methods=['POST'])
+@app.route("/inbound/email", methods=['GET', 'POST'])
 def inbound_email():
+    if request.method == 'GET':
+        return 'ok'
+
     json_data = json.dumps(request.json)
     json_data2 = request.data
     inbound = PostmarkInbound(json=json_data)

@@ -2,7 +2,7 @@
     <head>
         <title>Share on ADN</title>
         
-            <link rel="stylesheet" type="text/css" href="./static/gen/af8608e3_packed.css">
+            <link rel="stylesheet" type="text/css" href="./static/gen/7b83329f_packed.css">
         
     </head>
     <body>
@@ -14,10 +14,13 @@
                     <h1>Share links on App.net</h1>
                     <br>
                     
-                    <p>Drag this bookmarklet <a class='btn btn-primary' href="javascript:void((function()%7BSADN_ROOT='https://del05f65do1od.cloudfront.net';var%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src',SADN_ROOT + '/static/gen/bookmarklet.js?4f2c84e3?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">Share on ADN</a> to your bookmarklet bar.</p>
+                    <p>Drag this bookmarklet <a class='btn btn-primary' href="javascript:void((function()%7BSADN_ROOT='https://del05f65do1od.cloudfront.net';var%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src',SADN_ROOT + '/static/gen/bookmarklet.js?736410b9?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">Share on ADN</a> to your bookmarklet bar.</p>
                     
                     <p><small>The first time you use the bookmarklet you will need to authenticate this app.</small></p>
                 </div>
+            </div>
+            <div class='page-container'>
+                <iframe src='https://del05f65do1od.cloudfront.net/index.html?view=grid&unauth_stall=1' class='iframe'></iframe>
             </div>
         </script>
         <script type='javascript/template' data-name='auth'>
@@ -39,13 +42,26 @@
                     <legend>Post this link to App.net</legend>
                     <label>Post Text (<span class='js-char-count'>250</span>)</label>
                     <textarea class='js-post-text post-text' name='post_text'></textarea>
-                    <span class="help-block">The rest of the form will be saved as an annotation.</span>
-                    <label>Snippet</label>
-                    <textarea class='js-snippet snippet' name='snippet'></textarea>
-                    <label>Link</label>
-                    <input class='js-link' name='link'>
-                    <label>Title</label>
-                    <input class='js-title' name='title'>
+                    <div class='js-embed-carousel embed-carousel'>
+                        <span class="help-block">
+                            <span><strong>Clip to be stored on the post</strong></span>
+                            <span class='help-block pull-right hide js-embed-carousel-nav'>
+                                <a href='#prev' title='Previous Embed' class='js-embed-carousel-left'><i class='icon-arrow-left'></i></a>
+                                &nbsp;
+                                <a href='#next' title='Next Embed' class='js-embed-carousel-right'><i class='icon-arrow-right'></i></a>
+                            </span>
+                        </span>
+                        <div class='embed-carousel js-embed-carousel-item-container'>
+                            <div class='embed-carousel-item js-embed-carousel-item' data-source='form'>
+                                <label>User Selected Snippet</label>
+                                <textarea class='js-snippet snippet' name='snippet'></textarea>
+                                <label>Link</label>
+                                <input class='js-link' name='link'>
+                                <label>Title</label>
+                                <input class='js-title' name='title'>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <a href='#' class="btn btn-primary js-post-to-adn">Post</a>
                         <a href='#' class="btn btn-link js-cancel-post pull-right">Cancel</a>
@@ -53,7 +69,86 @@
                 </form>
             </div>
         </script>
-
+        <script type='javascript/template' data-name="rich-embed">
+            <div class='oembed-rich'>
+                <p>
+                    <a href='<%= ctx.embed.embeddable_url %>'><%= ctx.embed.title %></a>
+                </p>
+                <p><%= ctx.embed.description %></p>
+                <p>
+                    <img src='<%= ctx.embed.thumbnail_url %>'
+                         width='<%= ctx.embed.thumbnail_width %>px'
+                         height='<%= ctx.embed.thumbnail_height %>px'>
+                </p>
+                <p>via <a href='<%= ctx.embed.provider_url %>'><%= ctx.embed.provider_name %></a></p>
+            </div>
+        </script>
+        <script type='javascript/template' data-name='embed-carousel-item'>
+            <div class='embed-carousel-item hide js-embed-carousel-item' data-source='embed'>
+                <label>Embed</label>
+                <div class='yui3-g'>
+                    <% if (ctx.embed.type != 'photo') { %>
+                    <div class='yui3-u-1'>
+                        <h4 class='no-top-space'><%= ctx.embed.title %></h4>
+                    </div>
+                    <div class='yui3-u-3-4'>
+                        <p><%= ctx.embed.description %></p>
+                    </div>
+                    <div class='yui3-u-1-4'>
+                        <img src='<%= ctx.embed.thumbnail_url %>'>
+                    </div>
+                    <% } else { %>
+                        <div class='yui3-u-1'>
+                            <h3 class='no-top-space'><%= ctx.embed.title %></h3>
+                            <p><img src='<%= ctx.embed.thumbnail_url %>' style='max-height: 140px;'></p>
+                        </div>
+                    <% } %>
+                <div>
+            </div>
+        </script>
+        <!--
+            <div class='img-container'>
+                <% _.each(post.annotations, function (annotation) { %>
+                    <% if (annotation.value.type == 'photo') { %>
+                    <img src='<%= annotation.value.url %>' width='<%= annotation.value.width %>' height='<%= annotation.value.height %>'>
+                    <% } else { %>
+                    <img src='<%= annotation.value.thumbnail_url %>' width='<%= annotation.value.thumbnail_width %>' height='<%= annotation.value.thumbnail_height %>'>
+                    <% } %>
+                <% }) %>
+            </div>
+        -->
+        <script type='javascript/template' data-name='grid'>
+            <div class='full-container'>
+                <div class=''>
+                    <div class='yui3-g'>
+                        <div class='yui3-u-1-2'>
+                            <h2>Your Recently Saved Links</h2>
+                            <ul class='unstyled post-display yui3-u-11-12' data-post-display>
+                                <% _.each(ctx.posts, function(post) { %>
+                                    <li class='yui3-u-1'>
+                                        <div class='inside'>
+                                            <blockquote class='yui3-u-11-12'>
+                                                <p><%= post.html %></p>
+                                                <div class='yui3-g'>
+                                                    <div class='yui3-u-1-12'>
+                                                        <a href='http://alpha.app.net/<%= post.user.username %>'>
+                                                            <img src='<%= post.user.avatar_image.url %>?width=60&height=60' width='30px' height='30px'>
+                                                        </a>
+                                                    </div>
+                                                    <div class='yui3-u-11-12'>
+                                                        <p><a href='http://alpha.app.net/<%= post.user.username %>'>@<%= post.user.username %></a></p>
+                                                    </div>
+                                                </div>
+                                            </blockquote>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
         <!-- scripts -->
         <script type="text/javascript">
             var OPTIONS = {
@@ -63,7 +158,7 @@
         </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         
-            <script type="text/javascript" src="./static/gen/e3b72a07_packed.js"></script>
+            <script type="text/javascript" src="./static/gen/ef400612_packed.js"></script>
         
     </body>
 </html>
