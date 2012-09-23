@@ -4,7 +4,7 @@ from flask.ext.assets import Environment, Bundle
 
 flask_conf = os.environ.get('FLASK_CONF') or './conf/dev.cfg'
 PORT_NUM = int(os.environ.get('PORT', 5000))
-print flask_conf
+
 app = Flask(__name__)
 app.config.from_pyfile(flask_conf, silent=True)
 
@@ -46,4 +46,4 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=PORT_NUM)
