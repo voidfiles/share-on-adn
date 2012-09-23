@@ -66,8 +66,11 @@ def hello():
 @app.route("/inbound/email")
 def inbound_email():
     json_data = json.dumps(request.json)
+    json_data2 = request.data
     inbound = PostmarkInbound(json=json_data)
-    logger.INFO(inbound.json)
+    logger.info(inbound.json)
+    logger.info(request.headers)
+    logger.info(json_data2)
     return 'ok'
 
 if __name__ == "__main__":
