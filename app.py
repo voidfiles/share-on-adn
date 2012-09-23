@@ -4,6 +4,8 @@ from flask.ext.assets import Environment, Bundle
 
 flask_conf = os.environ.get('FLASK_CONF') or './conf/dev.cfg'
 PORT_NUM = int(os.environ.get('PORT', 5000))
+if PORT_NUM != 5000:
+    flask_conf = './conf/heroku.cfg'
 
 app = Flask(__name__)
 app.config.from_pyfile(flask_conf, silent=True)
@@ -40,6 +42,7 @@ js = Bundle(
 assets.register('css_all', js)
 
 
+@app.route("/")
 @app.route("/index.html")
 def hello():
     return render_template('index.html', ROOT_URL=app.config.get('ROOT_URL'))
