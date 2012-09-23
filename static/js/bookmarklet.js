@@ -124,7 +124,7 @@
             a.style.zIndex = 9999;
             this.__iframe_div = a;
             document.body.appendChild(this.__iframe_div);
-            var iframe_url = this.grLink + '&host_url=' + encodeURI(('' + window.location));
+            var iframe_url = this.grLink + '&host_url=' + encodeURIComponent(('' + window.location));
             this.__iframe_div.innerHTML = '<iframe src="' + iframe_url + '" frameborder="0" id="GR________link_bookmarklet_frame" name="GR________link_bookmarklet_frame" style="width:100%;height:100%;border:0px;padding:0px;margin:0px"></iframe>';
             this.__iframe = document.getElementById("GR________link_bookmarklet_frame");
         }
@@ -207,7 +207,7 @@
         var encoded_params = [];
 
         for (var param in params) {
-            encoded_params.push(param + '=' + encodeURI(params[param]));
+            encoded_params.push(param + '=' + encodeURIComponent(params[param]));
         }
         encoded_params = encoded_params.join('&');
 
