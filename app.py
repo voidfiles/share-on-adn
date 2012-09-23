@@ -63,7 +63,7 @@ def hello():
     return render_template('index.html', ROOT_URL=app.config.get('ROOT_URL'))
 
 
-@app.route("/inbound/email")
+@app.route("/inbound/email", methods=['POST'])
 def inbound_email():
     json_data = json.dumps(request.json)
     json_data2 = request.data
