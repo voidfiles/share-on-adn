@@ -2,7 +2,9 @@ import os
 import sys
 import logging
 import json
-
+import dj_database_url
+import peewee
+from flask_peewee.db import Database
 from flask import Flask, render_template
 from flask import request
 from flask.ext.assets import Environment, Bundle
@@ -24,6 +26,19 @@ if PORT_NUM != 5000:
 
 app = Flask(__name__)
 app.config.from_pyfile(flask_conf, silent=True)
+
+
+if PORT_NUM != 5000:
+    db_config = dj_database_url.config(default='sqlite://test.db')
+    app.config['DATABASE'] = {
+        'name': db_config.get('NAME'),
+        'host': db_config.get('HOST'),
+        'port': db_config.get('PORT'),
+        'password': db_config.get('PASSWORD'),
+        'user': db_config.get('user')
+    }
+
+db = Database(app)
 
 assets = Environment(app)
 
@@ -55,6 +70,38 @@ js = Bundle(
     output='./gen/%(version)s_packed.css')
 
 assets.register('css_all', js)
+
+
+class BaseModel(db.Model):
+    extra_info_text = peewee.TextField()
+
+    def get_extra_info(self):
+        if self._json:
+            return self._json
+
+        self._json = json.loads(self.extra_info_text)
+        return self._json
+
+    def set_extra_info(self, value):
+        json_string = json.dumps(value)
+        self.extra_info_text = json_string
+        self._json = value
+
+    extra_info = property(get_extra_info, set_extra_info)
+
+
+class User(BaseModel):
+    username = peewee.CharField()
+    access_token = peewee.CharField()
+
+
+class Post(BaseModel):
+    content = peewee.CharField()
+
+    user = peewee.ForeignKeyField(User)
+
+    def __unicode__(self):
+        return self.title
 
 
 @app.route("/")
