@@ -22,7 +22,7 @@
 }
 
 .bookmarklet-container .snippet {
-    height: 75px;
+    height: 50px;
 }
 
 .bookmarklet-container .post-text {
@@ -47,7 +47,7 @@
 }
 
 .embed-carousel {
-    height: 241px;
+    height: 225px;
 }
 
 .post-display {
@@ -85,8 +85,17 @@
 }
 
 .embed-carousel-item {
-    height: 220px;
+    height: 195px;
     overflow: scroll;
+}
+
+.form-actions {
+    margin-top: 0;
+    padding: 4px 5px 5px;
+}
+
+legend {
+    margin-bottom: 0;
 }
 
 iframe {

@@ -62,6 +62,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class='post-to-selector'>
+                        <label>Post To</label>
+                        <select name='post-to'>
+                            <option value='0'>My Stream</option>
+                            <% _.each(ctx.channels, function(channel) { %>
+                            <option value="<%= channel.channel %>"><%= channel.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
                     <div class="form-actions">
                         <a href='#' class="btn btn-primary js-post-to-adn">Post</a>
                         <a href='#' class="btn btn-link js-cancel-post pull-right">Cancel</a>
@@ -75,11 +84,13 @@
                     <a href='<%= ctx.embed.embeddable_url %>'><%= ctx.embed.title %></a>
                 </p>
                 <p><%= ctx.embed.description %></p>
+                <% if (ctx.embed.thumbnail_url) { %>
                 <p>
                     <img src='<%= ctx.embed.thumbnail_url %>'
                          width='<%= ctx.embed.thumbnail_width %>px'
                          height='<%= ctx.embed.thumbnail_height %>px'>
                 </p>
+                <% } %>
                 <p>via <a href='<%= ctx.embed.provider_url %>'><%= ctx.embed.provider_name %></a></p>
             </div>
         </script>
