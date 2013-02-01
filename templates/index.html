@@ -44,25 +44,28 @@
                     <textarea class='js-post-text post-text' name='post_text'></textarea>
                     <div class='js-embed-carousel embed-carousel'>
                         <span class="help-block">
-                            <span><strong>Clip to be stored on the post</strong></span>
-                            <span class='help-block pull-right hide js-embed-carousel-nav'>
-                                <a href='#prev' title='Previous Embed' class='js-embed-carousel-left'><i class='icon-arrow-left'></i></a>
-                                &nbsp;
-                                <a href='#next' title='Next Embed' class='js-embed-carousel-right'><i class='icon-arrow-right'></i></a>
-                            </span>
+                            <span><strong>Comment</strong> <small>(will be stored in an annotation)</small></span>
+                            <div class='hide'>
+                                <span class='help-block pull-right hide js-embed-carousel-nav'>
+                                    <a href='#prev' title='Previous Embed' class='js-embed-carousel-left'><i class='icon-arrow-left'></i></a>
+                                    &nbsp;
+                                    <a href='#next' title='Next Embed' class='js-embed-carousel-right'><i class='icon-arrow-right'></i></a>
+                                </span>
+                            </div>
                         </span>
                         <div class='embed-carousel js-embed-carousel-item-container'>
                             <div class='embed-carousel-item js-embed-carousel-item' data-source='form'>
-                                <label>User Selected Snippet</label>
                                 <textarea class='js-snippet snippet' name='snippet'></textarea>
-                                <label>Link</label>
-                                <input class='js-link' name='link'>
-                                <label>Title</label>
-                                <input class='js-title' name='title'>
+                                <div class='hide'>
+                                    <label>Link</label>
+                                    <input class='js-link' name='link'>
+                                    <label>Title</label>
+                                    <input class='js-title' name='title'>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class='post-to-selector'>
+                    <div class='post-to-selector <% if (ctx.channels.length <= 1 ) { %>hide<% } %>'>
                         <label>Post To</label>
                         <select name='post-to'>
                             <option value='0'>My Stream</option>

@@ -120,8 +120,8 @@
             a.style.top = "8px";
             a.style.right = "8px";
             a.style.width = "520px";
-            a.style.height = "500px";
-            a.style.zIndex = 9999;
+            a.style.height = "430px";
+            a.style.zIndex = 2147483637;
             this.__iframe_div = a;
             document.body.appendChild(this.__iframe_div);
             var iframe_url = this.grLink + '&host_url=' + encodeURIComponent(('' + window.location));

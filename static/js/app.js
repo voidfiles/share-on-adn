@@ -1,6 +1,20 @@
 (function () {
 
 'use strict';
+/*
+Copyright (c) 2012 Noodleapp contributors; see CONTRIBUTORS
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+Neither the name of the nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 
 // markdown can have markdown [test](url) links, or bare URLs.  Anything else will be ignored and remain text.  Only link entities are set; that's all that's needed to post to the app.net API.
 var parse = function(markdown) {
@@ -386,15 +400,21 @@ var PostView = PageView.extend({
             }
         }).done(function (data) {
             if (data.data.annotations) {
+                var multiple_channels = false;
                 _.each(data.data.annotations, function (annotation) {
                     if (annotation.type == "net.share-app.feed-ad") {
                         localStorage.channels = JSON.stringify(annotation.value.list);
                         var select = $('[name="post-to"]');
+                        var post_to_select = $('.post-to-selector');
                         select.html('');
                         select.append('<option value=0>Feed</option>');
                         _.each(annotation.value.list, function (channel) {
+                            multiple_channels = true;
                             select.append('<option value="' + channel.channel + '">' + channel.name + '</option>');
                         });
+                        if (multiple_channels) {
+                            post_to_select.removeClass('hide');
+                        }
                         return false;
                     }
                 });
