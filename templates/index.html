@@ -39,10 +39,9 @@
         <script type='javascript/template' data-name='post'>
             <div class='bookmarklet-container'>
                 <form>
-                    <legend>Post this link to App.net</legend>
-                    <label>Post Text (<span class='js-char-count'>250</span>)</label>
+                    <legend>Share on ADN <span class='js-char-count pull-right'>250</span></legend>
                     <textarea class='js-post-text post-text' name='post_text'></textarea>
-                    <div class='js-embed-carousel embed-carousel'>
+                    <div class='js-embed-carousel embed-carousel hide'>
                         <span class="help-block">
                             <span><strong>Comment</strong> <small>(will be stored in an annotation)</small></span>
                             <div class='hide'>
@@ -66,13 +65,19 @@
                         </div>
                     </div>
                     <div class='post-to-selector <% if (ctx.channels.length <= 1 ) { %>hide<% } %>'>
-                        <label>Post To</label>
-                        <select name='post-to'>
-                            <option value='0'>My Stream</option>
-                            <% _.each(ctx.channels, function(channel) { %>
-                            <option value="<%= channel.channel %>"><%= channel.name %></option>
-                            <% }) %>
-                        </select>
+                        <div class='yui3-g'>
+                            <div class='yui3-u-1-6'>
+                                <label>Post To</label>
+                            </div>
+                            <div class='yui3-u-5-6'>
+                                <select name='post-to'>
+                                    <option value='0'>My Stream</option>
+                                    <% _.each(ctx.channels, function(channel) { %>
+                                    <option value="<%= channel.channel %>"><%= channel.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-actions">
                         <a href='#' class="btn btn-primary js-post-to-adn">Post</a>

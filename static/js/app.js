@@ -287,12 +287,6 @@ var PostView = PageView.extend({
         }
 
         post.annotations[0].value.html = post.annotations[0].value.html || "<a href='" + embeddable_url + "'>" + embeddable_url + "</a>";
-        post.annotations.push({
-            type: "net.app.core.crosspost",
-            value: {
-                canonical_url: embeddable_url
-            }
-        });
 
         var _this = this;
 
@@ -345,7 +339,7 @@ var PostView = PageView.extend({
         return post;
     },
     render_to_form: function (data) {
-        var post_text = data.title + ' [#](' + data.url + ')';
+        var post_text =  '[' + data.title + '](' + data.url + ')';
         var snippet = $('<div/>').html(data.snippet).get(0);
         snippet = MySanitizer.clean_node(snippet);
         snippet = $('<div/>').append(snippet.childNodes).get(0).innerHTML;

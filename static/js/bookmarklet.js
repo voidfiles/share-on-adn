@@ -115,12 +115,12 @@
             a.id = "GR________link_bookmarklet_node";
             a.style.position = "fixed";
             a.style.background = "#fff";
-            a.style.border = "4px solid black";
+            a.style.border = "2px solid rgba(0,0,0,.5)";
 
             a.style.top = "8px";
             a.style.right = "8px";
             a.style.width = "520px";
-            a.style.height = "430px";
+            a.style.height = "255px";
             a.style.zIndex = 2147483637;
             this.__iframe_div = a;
             document.body.appendChild(this.__iframe_div);
