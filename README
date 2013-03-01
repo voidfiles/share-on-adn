@@ -1,4 +1,10 @@
-YO DAWG
+# Share on ADN
+
+This is mostly a repo I used for playing around with CORS which is something that the App.net API supports.
+
+If you want to use this you will probably need to modify the fabfile to point to your s3 repo, you will also need to install s3cmd.
+
+## Things you might want to do
 
 If you want to deploy the bookmarklet
 
